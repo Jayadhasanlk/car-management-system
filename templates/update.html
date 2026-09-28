@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Update Car</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+        }
+
+        .container {
+            width: 450px;
+            margin: 50px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #222;
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: bold;
+            color: #444;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 18px;
+            border: 1px solid #ccc;
+            border-radius: 7px;
+            font-size: 15px;
+        }
+
+        input:focus,
+        select:focus {
+            outline: none;
+            border-color: #333;
+        }
+
+        .current-image {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .current-image img {
+            width: 150px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .update-btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 7px;
+            background: #222;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .update-btn:hover {
+            background: #444;
+        }
+
+        .back {
+            display: block;
+            text-align: center;
+            margin-top: 18px;
+            color: #333;
+            text-decoration: none;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Update Car</h1>
+
+    <form method="POST" enctype="multipart/form-data">
+
+        {% csrf_token %}
+
+        <label>Brand</label>
+        <input
+            type="text"
+            name="brand"
+            value="{{ key.brand }}"
+            required
+        >
+
+        <label>Model</label>
+        <input
+            type="text"
+            name="model"
+            value="{{ key.model }}"
+            required
+        >
+
+        <label>Price</label>
+        <input
+            type="number"
+            name="price"
+            value="{{ key.price }}"
+            required
+        >
+
+        <label>Year</label>
+        <input
+            type="number"
+            name="year"
+            value="{{ key.year }}"
+            required
+        >
+
+        <label>Fuel Type</label>
+
+        <select name="fuel_type" required>
+
+            <option value="Petrol"
+                {% if key.fuel_type == "Petrol" %}selected{% endif %}>
+                Petrol
+            </option>
+
+            <option value="Diesel"
+                {% if key.fuel_type == "Diesel" %}selected{% endif %}>
+                Diesel
+            </option>
+
+            <option value="Electric"
+                {% if key.fuel_type == "Electric" %}selected{% endif %}>
+                Electric
+            </option>
+
+            <option value="Hybrid"
+                {% if key.fuel_type == "Hybrid" %}selected{% endif %}>
+                Hybrid
+            </option>
+
+        </select>
+
+        {% if key.image %}
+
+        <div class="current-image">
+
+            <p><strong>Current Image</strong></p>
+
+            <img
+                src="{{ key.image.url }}"
+                alt="Current Car Image"
+            >
+
+        </div>
+
+        {% endif %}
+
+        <label>Change Image</label>
+
+        <input
+            type="file"
+            name="image"
+        >
+
+        <button type="submit" class="update-btn">
+            Update Car
+        </button>
+
+    </form>
+
+    <a href="{% url 'show' %}" class="back">
+        ← Back to Car Inventory
+    </a>
+
+</div>
+
+</body>
+
+</html>
